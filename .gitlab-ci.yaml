@@ -1,0 +1,17 @@
+variables:
+  MAVEN_CLI_OPTS_DEV: "-s .m2/settings.xml --batch-mode"
+  DOMAIN_OWNER: xxxxxx
+  APP_DOMAIN: myappdomain
+  APP_PACKAGE: myapppackage
+
+stages:
+ - deploymavenaws
+
+deploy-maven-artifact-aws:
+  image: 
+    name: softinstigate/maven-aws
+  stage: deploymavenaws
+  before_script:
+    - export CODEARTIFACT_AUTH_TOKEN=$(aws codeartifact get-authorization-token --domain $APP_DOMAIN --domain-owner $DOMAIN_OWNER --query authorizationToken --output text)
+  script:
+    - mvn $MAVEN_CLI_OPTS_DEV deploy
