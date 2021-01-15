@@ -94,6 +94,14 @@ Additionally, for Maven, you need to add the following lines at the end of your 
 
 With this method, you should have a new artifact on AWS CodeArtifact every time you launch your gitlab CI/CD !
 
+
+On gitlab, you should see the sucessfull pipeline
+
+![image.png](https://cdn.hashnode.com/res/hashnode/image/upload/v1610705026585/iBB5NGl_4.png)
+
+And finally, you should find your artifact on AWS, including the .war and the .pom file.
+![image.png](https://cdn.hashnode.com/res/hashnode/image/upload/v1610704922404/gVBTe0ipn.png)
+
 Tips : if you launch your CI/CD with the same version in your pom.xml, there will be a 409 conflict issue on aws because you artifact already exist.
 You can delete artifact with the same id (for example on a dev CI/CD branch) by adding the following lines in your before_script : 
 
@@ -102,7 +110,6 @@ You can delete artifact with the same id (for example on a dev CI/CD branch) by 
 - RELEASE_VERSION=$(xmllint --xpath '/*[local-name()="project"]/*[local-name()="version"]/text()' pom.xml)
 - aws codeartifact delete-package-versions  --domain $APP_DOMAIN --repository $APP_REPO --format maven --package $APP_PACKAGE --namespace $APP_NS --versions $RELEASE_VERSION || true
 ``` 
-
 
 
 Feel free to contact us directly if you have any question at cloud@cisel.ch
